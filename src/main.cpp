@@ -3,7 +3,7 @@
 #include <SPI.h>
 #include <RadioLib.h>
 
-#define WAKE_PIN D0
+#define WAKE_PIN D0   // << change Pin Number for waking up from system off
 
 // Wio-SX1262 (LLCC68)
 #define LORA_CS    D4
@@ -23,6 +23,16 @@ void enterSystemOff() {
   delay(5);
   radio.sleep();
   delay(5);
+
+  // Wakeup-Pin as Input with Pullup
+  pinMode(WAKE_PIN, INPUT_PULLUP);
+  
+  uint32_t pin = g_ADigitalPinMap[WAKE_PIN];
+
+  // nRF52840 registry for Wakeup trough GPIO LOW
+  NRF_GPIO->PIN_CNF[pin] &= ~GPIO_PIN_CNF_SENSE_Msk;  // alte SENSE Bits löschen
+  NRF_GPIO->PIN_CNF[pin] |= (GPIO_PIN_CNF_SENSE_Low << GPIO_PIN_CNF_SENSE_Pos);
+  delay(10);
 
   //nrf52840 deep sleep mode
   NRF_POWER->SYSTEMOFF = 1;
