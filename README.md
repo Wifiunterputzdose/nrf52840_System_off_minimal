@@ -1,0 +1,3 @@
+Test scenario to see how much current can be reduced by putting the nrf52840 and SX1262 into a "deep sleep" mode. The nrf52840 enters System_off and the SX1262 module will be put into a standby sleep mode where everythin is turned off.
+To see the difference first the nrf52840 and sx1262 will be consume a bit current by sending data through LoRa and by blinking the led 3x.
+Add first 3x blinking can be seen than data will be send for 5s through the sx1262 after the 5s bod modules going into deep sleep mode. First around 2-3mA will be consumed after that in deep sleep mode only 40-50µA should be measured.
